@@ -17,24 +17,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    NSDictionary *pageViewOptions = @{@(UIPageViewControllerSpineLocationMin) :
+                                          UIPageViewControllerOptionSpineLocationKey};
+    self.pageViewController = [[UIPageViewController alloc]
+                               initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl
+                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
+                               options:pageViewOptions];
+    UIViewController *albumPageViewController =
+        [self.storyboard instantiateViewControllerWithIdentifier:@"AlbumPageViewController"];
+    [self.pageViewController setViewControllers:@[albumPageViewController]
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:NO
+                                     completion:nil];
+    [self addChildViewController:self.pageViewController];
+    [self.view addSubview:self.pageViewController.view];
+    [self.pageViewController didMoveToParentViewController:self];
+    self.pageViewController.view.frame = self.view.bounds;
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (BOOL) prefersStatusBarHidden
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    return YES;
 }
 */
-
 @end
